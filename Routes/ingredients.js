@@ -23,7 +23,7 @@ routes.get("/:ingredient", (req, res, next) => {
 
 // Add New Ingredient data Route
 routes.post("", async (req, res, next) => {
-    try {
+    // try {
         
         // images CDN URL
         imagesUrl = {
@@ -65,18 +65,32 @@ routes.post("", async (req, res, next) => {
 
         // connect database
         connection.query(sql, function (err, result, fields) {
-            if (err) throw err;
-            //Return the fields object:
-            console.log(result);
+            if (err) {
+                console.log('Error', err.sqlMessage, err.code === 'ER_DUP_ENTRY');
+                if(err.code === 'ER_DUP_ENTRY') {
+                    res.status(200).json({
+                        code: 502,
+                        message: err.sqlMessage,
+                    });
+                } else {
+                    res.status(200).json({
+                        code: 502,
+                        message: err.sqlMessage,
+                    });
+                }
+            } else {
+                console.log('result', result);
 
-            res.status(200).json({
-              message: "ingredients added successfully!",
-            });
+                res.status(200).json({
+                    code: 200,
+                    message: "Ingredients added successfully!",
+                });
+            }
         });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ err: 'Something went wrong' });
-    }
+    // } catch (err) {
+    //     console.error(err);
+    //     res.status(500).json({ message: err });
+    // }
 
 });
 
