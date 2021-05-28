@@ -94,7 +94,7 @@ routes.post("", async (req, res, next) => {
 
 });
 
-// Add New Ingredient data Route
+// Edit Ingredient data Route
 routes.put("", async (req, res, next) => {
     // try {
         
@@ -130,14 +130,11 @@ routes.put("", async (req, res, next) => {
         }
         
         // Query string
-        var sql = `UPDATE ingredient 
-        (ingredient, alt_ingredient_1, alt_ingredient_2, alt_ingredient_3, alt_ingredient_1_image, alt_ingredient_2_image, alt_ingredient_3_image) 
-        VALUES ( 
-            '${req.body.ingredient}', 
-            '${req.body.ingredientName1}', '${req.body.ingredientName2}', '${req.body.ingredientName3}', 
-            '${imagesUrl.image1}', '${imagesUrl.image2}', '${imagesUrl.image3}'
-        )`;
-
+        var sql = `UPDATE ingredient SET
+        ingredient = '${req.body.ingredient}', alt_ingredient_1 = '${req.body.ingredientName1}', alt_ingredient_2 = '${req.body.ingredientName2}', 
+        alt_ingredient_3 = '${req.body.ingredientName3}', alt_ingredient_1_image = '${imagesUrl.image1}', alt_ingredient_2_image = '${imagesUrl.image2}', 
+        alt_ingredient_3_image = '${imagesUrl.image3}' WHERE ingredient = '${req.body.ingredient}'`;
+        
         // connect database
         connection.query(sql, function (err, result, fields) {
             if (err) {
