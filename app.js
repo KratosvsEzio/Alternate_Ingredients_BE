@@ -27,4 +27,4 @@ app.use((req, res, next) => {
 
 app.use('/api/ingredient', ingredientsRoutes);
 
-module.exports = app;
+app.listen();
