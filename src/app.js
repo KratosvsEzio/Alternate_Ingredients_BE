@@ -1,10 +1,11 @@
 const express = require('express');
+const serverless = require('serverless-http');
 var cors = require('cors');
 
 // Routes
-const ingredientsRoutes = require('./Routes/ingredients');
+const ingredientsRoutes = require('../Routes/ingredients.mongodb');
 
-require('./Db');
+require('../Db');
 const app = express();
 app.use(express.static('public'));
 app.use(express.json({ limit: '50mb' }));
@@ -25,6 +26,9 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/api/ingredient', ingredientsRoutes);
+app.use('/.netlify/functions/app/api', ingredientsRoutes);
 
-app.listen();
+// app.listen();
+
+module.exports = app;
+module.exports.handler = serverless(app);
