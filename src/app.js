@@ -26,9 +26,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/.netlify/functions/app/api', ingredientsRoutes);
-
-// app.listen();
+app.use('/.netlify/functions/app', ingredientsRoutes);
 
 module.exports = app;
 module.exports.handler = serverless(app);
